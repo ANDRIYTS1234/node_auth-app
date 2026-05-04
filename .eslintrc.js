@@ -1,10 +1,22 @@
 module.exports = {
   extends: '@mate-academy/eslint-config',
+  parser: '@typescript-eslint/parser',
   env: {
-    jest: true
+    jest: true,
+    node: true,
   },
   rules: {
-    'no-proto': 0
+    'no-proto': 0,
+    'no-console': 0,
+    'indent': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
+    'indent': 'off',
+    '@typescript-eslint/indent': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn'],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
+    'no-return-await': 'off',
   },
-  plugins: ['jest']
+  plugins: ['jest', '@typescript-eslint']
 };
