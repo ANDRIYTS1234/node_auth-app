@@ -1,6 +1,13 @@
 module.exports = {
   extends: '@mate-academy/eslint-config',
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    ecmaFeatures: {
+      experimentalObjectRestSpread: true,
+    },
+  },
   env: {
     jest: true,
     node: true,

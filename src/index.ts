@@ -27,15 +27,19 @@ app.use('/profile', userRouter);
 async function start() {
   try {
     await sequelize.authenticate();
+    // eslint-disable-next-line no-console
     console.log("Виконано з'єднання з бд");
 
     await sequelize.sync();
+    // eslint-disable-next-line no-console
     console.log('Створено моделі в бд');
 
     app.listen(PORT, () => {
+      // eslint-disable-next-line no-console
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log('Помилка запуску сервера', error);
   }
 }
