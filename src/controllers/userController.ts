@@ -12,9 +12,9 @@ export const updateEmail = async (req: Request, res: Response) => {
 
     await changeEmail(oldEmail, newEmail, password);
 
-    res.send({ message: 'Лист для підтвердження відправлено на нову пошту' });
+    res.send(200).send({ message: 'Лист для підтвердження відправлено на нову пошту' });
   } catch (error) {
-    res.send({ error: (error as Error).message });
+    res.send(400).send({ error: (error as Error).message });
   }
 };
 
@@ -25,9 +25,9 @@ export const updateName = async (req: Request, res: Response) => {
 
     await changeName(email, newName);
 
-    res.send({ message: "Ім'я змінено" });
+    res.send(200).send({ message: "Ім'я змінено" });
   } catch (error) {
-    res.send({ error: (error as Error).message });
+    res.send(400).send({ error: (error as Error).message });
   }
 };
 
@@ -42,8 +42,8 @@ export const updatePassword = async (req: Request, res: Response) => {
 
     await changePassword(email, oldPassword, newPassword);
 
-    res.send({ message: 'Пароль змінено' });
+    res.send(200).send({ message: 'Пароль змінено' });
   } catch (error) {
-    res.send({ error: (error as Error).message });
+    res.send(400).send({ error: (error as Error).message });
   }
 };

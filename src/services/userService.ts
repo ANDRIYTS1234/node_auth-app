@@ -2,6 +2,7 @@ import { User } from '../models/User';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { sendActivationEmail, sendEmailChangeNotif } from './emailService';
+import { isPasswordStrong } from '../utils/validatePassword';
 
 export const changeName = async (email: string, newName: string) => {
   const user = await User.findOne({ where: { email } });
@@ -29,6 +30,12 @@ export const changePassword = async (
 
   if (!valid) {
     throw new Error('Невірний старий пароль');
+  }
+
+  if (!isPasswordStrong(newPassword)) {
+    throw new Error(
+      'Пароль повинен містити 8 символів, великі/малі літери, цифри та спецсимволи'
+    );
   }
 
   const hashedNewPass = await bcrypt.hash(newPassword, 10);

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { sendActivationEmail, sendResetPasswordEmail } from './emailService';
 import jwt from 'jsonwebtoken';
 import { Token } from '../models/Token';
+import { isPasswordStrong } from '../utils/validatePassword';
 
 export const register = async (
   name: string,
@@ -16,8 +17,10 @@ export const register = async (
     throw new Error('Користувач з таким емейлом уже зареєстрований');
   }
 
-  if (password.length < 6) {
-    throw new Error('Довжина паролю має бути більше 6 символів');
+  if (!isPasswordStrong(password)) {
+    throw new Error(
+      'Пароль повинен містити 8 символів, великі/малі літери, цифри та спецсимволи'
+    );
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -32,7 +35,12 @@ export const register = async (
 
   await sendActivationEmail(email, activationToken);
 
-  return newUser;
+  return {
+    id: newUser.id,
+    name: newUser.name,
+    email: newUser.email,
+    isActive: newUser.isActive,
+  };
 };
 
 export const activate = async (activationToken: string) => {
@@ -45,6 +53,7 @@ export const activate = async (activationToken: string) => {
   }
 
   user.isActive = true;
+  user.activationToken = null;
   await user.save();
 };
 
@@ -161,6 +170,12 @@ export const resetPassword = async (
 
   if (!user) {
     throw new Error('Недійсне або застаріле посилання');
+  }
+
+  if (!isPasswordStrong(newPassword)) {
+    throw new Error(
+      'Пароль повинен містити 8 символів, великі/малі літери, цифри та спецсимволи'
+    );
   }
 
   const hashedPass = await bcrypt.hash(newPassword, 10);

@@ -15,9 +15,9 @@ export const registration = async (req: Request, res: Response) => {
   try {
     const newUser = await register(name, email, password);
 
-    res.send(newUser);
+    res.send(201).send(newUser);
   } catch (error) {
-    res.send({ error: (error as Error).message });
+    res.send(400).send({ error: (error as Error).message });
   }
 };
 
@@ -27,9 +27,9 @@ export const activation = async (req: Request, res: Response) => {
 
     await activate(activationToken);
 
-    res.send('Акаунт активовано');
+    res.send(200).send('Акаунт активовано');
   } catch (error) {
-    console.log({ error: (error as Error).message });
+    res.send(400).send({ error: (error as Error).message });
   }
 };
 
@@ -43,9 +43,9 @@ export const login = async (req: Request, res: Response) => {
       httpOnly: true,
     });
 
-    res.send({ user: resObj.user, accessToken: resObj.accessToken });
+    res.send(200).send({ user: resObj.user, accessToken: resObj.accessToken });
   } catch (error) {
-    res.send({ error: (error as Error).message });
+    res.send(401).send({ error: (error as Error).message });
   }
 };
 
@@ -60,9 +60,9 @@ export const refreshing = async (req: Request, res: Response) => {
       httpOnly: true,
     });
 
-    res.send(result.newAccessToken);
+    res.send(200).send(result.newAccessToken);
   } catch (error) {
-    res.send({ error: (error as Error).message });
+    res.send(401).send({ error: (error as Error).message });
   }
 };
 
@@ -74,9 +74,9 @@ export const logout = async (req: Request, res: Response) => {
 
     res.clearCookie('refreshToken');
 
-    res.send({ message: 'Успішний вихід' });
+    res.send(204).send({ message: 'Успішний вихід' });
   } catch (error) {
-    res.send({ error: (error as Error).message });
+    res.send(400).send({ error: (error as Error).message });
   }
 };
 
@@ -85,9 +85,9 @@ export const forgotPassword = async (req: Request, res: Response) => {
     const email = req.body.email;
 
     await forgotPass(email);
-    res.send({ message: 'Лист для відновлення пароля відправлено' });
+    res.send(200).send({ message: 'Лист для відновлення пароля відправлено' });
   } catch (error) {
-    res.send({ error: (error as Error).message });
+    res.send(400).send({ error: (error as Error).message });
   }
 };
 
@@ -102,8 +102,8 @@ export const resetPassword = async (req: Request, res: Response) => {
     }
 
     await resetPass(resetToken, password);
-    res.send({ message: 'Пароль успішно змінено' });
+    res.send(200).send({ message: 'Пароль успішно змінено' });
   } catch (error) {
-    res.send({ error: (error as Error).message });
+    res.send(400).send({ error: (error as Error).message });
   }
 };
