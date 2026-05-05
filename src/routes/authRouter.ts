@@ -17,8 +17,12 @@ authRouter.post('/registration', notAuthMiddleware, registration);
 authRouter.get('/activation/:activationToken', notAuthMiddleware, activation);
 authRouter.post('/login', notAuthMiddleware, login);
 authRouter.post('/forgot-password', notAuthMiddleware, forgotPassword);
-authRouter.post('/reset-password/:resetToken', notAuthMiddleware, resetPassword);
+
+authRouter.post(
+  '/reset-password/:resetToken',
+  notAuthMiddleware,
+  resetPassword,
+);
 
 authRouter.post('/refresh', refreshing);
 authRouter.post('/logout', authMiddleware, logout);
-

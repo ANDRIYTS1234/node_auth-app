@@ -19,7 +19,8 @@ export const register = async (
 
   if (!isPasswordStrong(password)) {
     throw new Error(
-      'Пароль повинен містити 8 символів, великі/малі літери, цифри та спецсимволи'
+      'Пароль повинен містити 8 символів, ' +
+        'великі/малі літери, цифри та спецсимволи',
     );
   }
 
@@ -92,7 +93,12 @@ export const login = async (email: string, password: string) => {
   });
 
   return {
-    user,
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      isActive: user.isActive,
+    },
     accessToken,
     refreshToken,
   };
@@ -134,7 +140,12 @@ export const refresh = async (refreshToken: string) => {
     await tokenData.save();
 
     return {
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        isActive: user.isActive,
+      },
       newAccessToken,
       newRefreshToken,
     };
@@ -174,7 +185,8 @@ export const resetPassword = async (
 
   if (!isPasswordStrong(newPassword)) {
     throw new Error(
-      'Пароль повинен містити 8 символів, великі/малі літери, цифри та спецсимволи'
+      'Пароль повинен містити 8 символів, ' +
+        'великі/малі літери, цифри та спецсимволи',
     );
   }
 

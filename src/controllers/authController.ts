@@ -15,9 +15,9 @@ export const registration = async (req: Request, res: Response) => {
   try {
     const newUser = await register(name, email, password);
 
-    res.send(201).send(newUser);
+    res.status(201).send(newUser);
   } catch (error) {
-    res.send(400).send({ error: (error as Error).message });
+    res.status(400).send({ error: (error as Error).message });
   }
 };
 
@@ -27,9 +27,9 @@ export const activation = async (req: Request, res: Response) => {
 
     await activate(activationToken);
 
-    res.send(200).send('Акаунт активовано');
+    res.status(200).send('Акаунт активовано');
   } catch (error) {
-    res.send(400).send({ error: (error as Error).message });
+    res.status(400).send({ error: (error as Error).message });
   }
 };
 
@@ -60,9 +60,9 @@ export const refreshing = async (req: Request, res: Response) => {
       httpOnly: true,
     });
 
-    res.send(200).send(result.newAccessToken);
+    res.status(200).send(result.newAccessToken);
   } catch (error) {
-    res.send(401).send({ error: (error as Error).message });
+    res.status(401).send({ error: (error as Error).message });
   }
 };
 
@@ -74,9 +74,9 @@ export const logout = async (req: Request, res: Response) => {
 
     res.clearCookie('refreshToken');
 
-    res.send(204).send({ message: 'Успішний вихід' });
+    res.status(204).send({ message: 'Успішний вихід' });
   } catch (error) {
-    res.send(400).send({ error: (error as Error).message });
+    res.status(400).send({ error: (error as Error).message });
   }
 };
 
@@ -85,9 +85,9 @@ export const forgotPassword = async (req: Request, res: Response) => {
     const email = req.body.email;
 
     await forgotPass(email);
-    res.send(200).send({ message: 'Лист для відновлення пароля відправлено' });
+    res.status(200).send({ message: 'Лист для відновлення пароля відправлено' });
   } catch (error) {
-    res.send(400).send({ error: (error as Error).message });
+    res.status(400).send({ error: (error as Error).message });
   }
 };
 
@@ -102,8 +102,8 @@ export const resetPassword = async (req: Request, res: Response) => {
     }
 
     await resetPass(resetToken, password);
-    res.send(200).send({ message: 'Пароль успішно змінено' });
+    res.status(200).send({ message: 'Пароль успішно змінено' });
   } catch (error) {
-    res.send(400).send({ error: (error as Error).message });
+    res.status(400).send({ error: (error as Error).message });
   }
 };

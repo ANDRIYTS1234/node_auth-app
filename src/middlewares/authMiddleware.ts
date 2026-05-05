@@ -23,6 +23,6 @@ export const authMiddleware = (
     (req as any).user = userData;
     next();
   } catch (error) {
-    res.status(401).send('Не авторизовано');
+    res.status(401).send('He авторизовано');
   }
 };
